@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and help
+    url: https://github.com/krishnanefx/obsidian-tahoe-intelligence/discussions/categories/q-a
+    about: "Ask how to do something with Tahoe Intelligence, or get help setting it up."
+  - name: Show how you use it
+    url: https://github.com/krishnanefx/obsidian-tahoe-intelligence/discussions/categories/show-and-tell
+    about: "Share a setup, a note or a screenshot."

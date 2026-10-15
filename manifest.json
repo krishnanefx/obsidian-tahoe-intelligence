@@ -1,0 +1,10 @@
+{
+  "id": "tahoe-intelligence",
+  "name": "Tahoe Intelligence",
+  "version": "1.1.0",
+  "minAppVersion": "1.13.0",
+  "description": "On-device AI for your notes: ask your notes, related notes, distill permanent notes, name untitled files, fill in properties, link by meaning, find duplicate ideas, writing help, tasks and a weekly review. Apple Intelligence or Ollama.",
+  "author": "Krishnan Adaikkappan",
+  "isDesktopOnly": true,
+  "authorUrl": "https://github.com/krishnanefx"
+}

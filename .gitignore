@@ -1,0 +1,4 @@
+node_modules/
+/main.js
+meta.json
+.DS_Store

@@ -1,0 +1,74 @@
+name: Bug report
+description: Something in Tahoe Intelligence doesn't work, or doesn't look, as it should.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Thanks for reporting it. The more exact the steps, the sooner it can be fixed. For a question rather than a bug, Discussions is the place."
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: And what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: "What you selected or asked, and what came back. For an answer you think is wrong, the note it should have used helps."
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Tahoe Intelligence version
+      description: "In Settings → Community plugins."
+    validations:
+      required: true
+  - type: input
+    id: obsidian
+    attributes:
+      label: Obsidian version
+      description: "In Settings → General."
+    validations:
+      required: true
+  - type: dropdown
+    id: device
+    attributes:
+      label: Device
+      multiple: true
+      options:
+        - macOS
+        - Windows
+        - Linux
+        - iPhone or iPad
+        - Android
+    validations:
+      required: true
+  - type: input
+    id: extra
+    attributes:
+      label: Model
+      description: "Apple Intelligence or Ollama (which model), and your macOS version."
+      placeholder: "Apple Intelligence, macOS 26.1"
+  - type: checkboxes
+    id: alone
+    attributes:
+      label: With other plugins off
+      options:
+        - label: "It still happens in Restricted mode (Settings → Community plugins), with only Tahoe Intelligence on."
+  - type: textarea
+    id: console
+    attributes:
+      label: Errors from the console
+      description: "On desktop: View → Toggle Developer Tools → Console. Paste anything in red that mentions Tahoe Intelligence."
+      render: text
+  - type: textarea
+    id: more
+    attributes:
+      label: Screenshots or anything else
