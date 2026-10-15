@@ -452,7 +452,6 @@ button.tahoe-ai-chip.is-on {
 .tahoe-ai-diff-del {
   color: var(--color-red, #ff3b30);
   text-decoration: line-through;
-  text-decoration-thickness: 1.5px;
   background: color-mix(in srgb, var(--color-red, #ff3b30) 10%, transparent);
   border-radius: 3px;
 }

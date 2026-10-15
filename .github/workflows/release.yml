@@ -49,4 +49,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           tag="${GITHUB_REF#refs/tags/}"
-          gh release create "$tag" --title "$tag" --draft main.js manifest.json styles.css
+          # The release notes are the tag's message (git tag -a 1.2.3 -m "…").
+          git fetch --force origin "refs/tags/$tag:refs/tags/$tag"
+          gh release create "$tag" --title "$tag" --draft --notes-from-tag main.js manifest.json styles.css
