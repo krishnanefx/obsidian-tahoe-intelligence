@@ -295,6 +295,7 @@ class IntelligenceSettingTab extends PluginSettingTab {
       .addTextArea((t) =>
         t.setValue((s.excludeFolders || []).join(", ")).onChange(async (v) => ((s.excludeFolders = v.split(",").map((x) => x.trim()).filter(Boolean)), await save()))
       );
+    containerEl.createDiv({ cls: "tahoe-source-link" }).createEl("a", { text: "Source, issues and ideas on GitHub", href: "https://github.com/krishnanefx/obsidian-tahoe-intelligence" });
   }
 }
 

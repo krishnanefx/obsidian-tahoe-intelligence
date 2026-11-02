@@ -42,6 +42,23 @@ Turn them on under *Tools* in Tahoe Intelligence's settings and restart Obsidian
 
 Desktop only.
 
+## Coming from Smart Connections
+
+Smart Connections and Tahoe Intelligence both show the notes related to the one you're reading, found by meaning with a model on your own computer. Smart Connections is focused on connections and works on every platform Obsidian runs on, phones included. Tahoe Intelligence is for the Mac and adds answers, writing help and more around its related notes.
+
+| | Smart Connections | Tahoe Intelligence |
+| --- | --- | --- |
+| Related notes by meaning | Connections view | *Show related notes* sidebar |
+| Drag a result in to link it | Yes | Yes |
+| Embedding model | Ships with its own local model | The Mac's text embeddings (English) |
+| Platforms | Desktop and mobile | Mac desktop; Ollama covers writing features on other desktops |
+| Answers from your notes | In Smart Chat, a separate plugin | *Ask your notes…*, with citations |
+| Cloud and local chat models | API models in Smart Chat Pro | Apple Intelligence or Ollama, on your computer only |
+| Extras | Lookup search; Pro adds inline connections and Bases columns | Writing help, tasks, distilling, weekly review, renaming |
+| Cost | Free core, paid Pro plugins | Free |
+
+**Switching.** Nothing to import: each plugin builds its own index. Smart Connections keeps its index in `.smart-env/` in your vault; Tahoe Intelligence keeps its index in `~/Library/Caches/tahoe-intelligence`, outside the vault. Since they don't share files, you can leave Smart Connections installed while you try Tahoe Intelligence.
+
 <!-- tahoe-family -->
 ## The Tahoe family
 
@@ -64,6 +81,10 @@ Tahoe is a set of plugins and a theme that work on their own and fit together.
 - **With [Tahoe Code](https://github.com/krishnanefx/obsidian-tahoe-code):** Apple Intelligence can be the model for Tahoe Code's ghost text, ⌘I edits and equation to code, if you don't use Ollama.
 - **With [Tahoe](https://github.com/krishnanefx/obsidian-tahoe-theme):** its sheets and the ✦ button take the theme's glass and corners.
 <!-- /tahoe-family -->
+
+## Feedback
+
+Questions are welcome in [Discussions](https://github.com/krishnanefx/obsidian-tahoe-intelligence/discussions), and bugs and ideas in [Issues](https://github.com/krishnanefx/obsidian-tahoe-intelligence/issues/new/choose). If Tahoe Intelligence is useful to you, a star helps others find it.
 
 ## Disclosures
 
