@@ -110,8 +110,8 @@ function explainError(error) {
   if (code === "cancelled") return null;
   if (code === "unavailable") return error.message;
   if (code === "context") return "That's more text than the on-device model can read at once. Try a shorter selection.";
-  if (code === "guardrail" || code === "refusal") return "Apple Intelligence declined to work on this text.";
-  if (code === "language") return "Apple Intelligence doesn't support this language yet.";
+  if (code === "guardrail" || code === "refusal") return "The on-device model declined to work on this text.";
+  if (code === "language") return "The on-device model doesn't support this language yet.";
   if (code === "assets") return "Apple Intelligence is still downloading its model. Try again in a few minutes.";
   return `Something went wrong: ${(error && error.message) || error}`;
 }
