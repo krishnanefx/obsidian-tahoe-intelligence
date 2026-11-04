@@ -2,6 +2,8 @@
 
 **On-device AI for your notes.** Ask your notes a question and get an answer with citations, see the notes related to the one you're reading, turn a rough note into a permanent one, proofread and rewrite a selection, find the tasks in your sentences, and draft a weekly review. It all runs on your Mac with Apple Intelligence (free and private), or with a local [Ollama](https://ollama.com) model. Nothing in a note changes until you've reviewed it.
 
+**Install:** in Obsidian, open Settings → Community plugins → Browse, search for “Tahoe Intelligence”, then Install and Enable. ([Directory page](https://community.obsidian.md/plugins/tahoe-intelligence))
+
 ![Proofreading a selection: each change is shown before you replace the text](images/demo.png)
 
 - Select a paragraph, click ✦ and **Proofread**: each change is marked, then *Replace*.

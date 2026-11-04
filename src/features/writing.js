@@ -197,6 +197,23 @@ function open(plugin, editor, toolId) {
   new WritingSheet(plugin, editor, tool, t).open();
 }
 
+// Summary straight to the clipboard, no sheet.
+async function summarizeToClipboard(plugin, editor) {
+  const t = target(editor);
+  if (!t) return new Notice("Select some text first");
+  const tool = TOOLS.find((x) => x.id === "summary");
+  const working = new Notice("Summarizing…", 0);
+  try {
+    const text = await plugin.engine.generate({ instructions: tool.prompt, prompt: `Text:\n${clip(t.text, 6000)}`, temperature: 0.5 });
+    await navigator.clipboard.writeText(tidy(text, t.text));
+    new Notice("Summary copied");
+  } catch (e) {
+    showError(e);
+  } finally {
+    working.hide();
+  }
+}
+
 function toolsMenu(plugin, editor, menu) {
   for (const tool of TOOLS) {
     if (tool.sep) menu.addSeparator();
@@ -281,6 +298,7 @@ function register(plugin) {
   for (const tool of TOOLS) {
     plugin.addCommand({ id: `writing-${tool.id}`, name: `Writing help: ${tool.name}`, icon: tool.icon, editorCallback: (editor) => open(plugin, editor, tool.id) });
   }
+  plugin.addCommand({ id: "writing-summary-copy", name: "Writing help: Copy summary", icon: "clipboard-copy", editorCallback: (editor) => summarizeToClipboard(plugin, editor) });
   plugin.registerEvent(
     plugin.app.workspace.on("editor-menu", (menu, editor) => {
       menu.addItem((item) => {
