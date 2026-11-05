@@ -25,6 +25,17 @@ const TOOLS = [
   { id: "table", name: "Table", icon: "table", prompt: "Turn the text into a Markdown table with a header row. Reply with the table only." },
 ];
 
+const TONES = {
+  friendly: "Aim for a warmer, friendlier tone.",
+  professional: "Aim for a clear, professional tone.",
+  concise: "Make it shorter and tighter.",
+};
+
+// Plain Rewrite can lean towards a tone chosen in settings.
+function toolPrompt(tool, tone) {
+  return tool.id === "rewrite" && TONES[tone] ? `${tool.prompt} ${TONES[tone]}` : tool.prompt;
+}
+
 // What to work on: the selection, or the paragraph the cursor is in.
 function target(editor) {
   let from = editor.getCursor("from");
@@ -85,7 +96,7 @@ class WritingSheet extends Modal {
     this.abort = new AbortController();
     try {
       const text = await this.plugin.engine.generate({
-        instructions: this.tool.prompt,
+        instructions: toolPrompt(this.tool, this.plugin.settings.rewriteTone),
         prompt: `Text:\n${clip(this.t.text, 6000)}`,
         temperature: this.tool.id === "proofread" ? 0 : 0.5,
         signal: this.abort.signal,
@@ -312,4 +323,4 @@ function register(plugin) {
   if (!Platform.isMobile) plugin.registerEditorExtension(selectionButton(plugin));
 }
 
-export { register, TOOLS, tidy };
+export { register, TOOLS, tidy, toolPrompt };

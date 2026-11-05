@@ -1,7 +1,7 @@
 {
   "id": "tahoe-intelligence",
   "name": "Tahoe Intelligence",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "minAppVersion": "1.13.0",
   "description": "Private, on-device AI for your notes with Apple Intelligence or a local LLM through Ollama: chat with your notes, related notes and links by meaning, duplicate ideas, proofreading and rewriting, tasks and a weekly review.",
   "author": "Krishnan Adaikkappan",

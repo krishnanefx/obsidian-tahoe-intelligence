@@ -32,6 +32,7 @@ const DEFAULT_SETTINGS = {
   excludeFolders: [],
   // Writing help
   writingButton: true,
+  rewriteTone: "", // "" · friendly · professional · concise — what plain Rewrite aims for
   // Properties
   properties: [
     { key: "type", enabled: true, values: ["fleeting", "literature", "permanent", "project", "area", "resource", "lecture", "meeting", "daily", "review"] },
@@ -236,6 +237,18 @@ class IntelligenceSettingTab extends PluginSettingTab {
       .setName("Show the ✦ button by selected text")
       .setDesc("Writing help is also in the right-click menu and the command palette.")
       .addToggle((t) => t.setValue(s.writingButton).onChange(async (v) => ((s.writingButton = v), await save())));
+    new Setting(containerEl)
+      .setName("Rewrite tone")
+      .setDesc("What plain Rewrite aims for. Friendly, Professional and Concise always do what they say.")
+      .addDropdown((d) =>
+        d
+          .addOption("", "Clearer")
+          .addOption("friendly", "Friendly")
+          .addOption("professional", "Professional")
+          .addOption("concise", "Concise")
+          .setValue(s.rewriteTone || "")
+          .onChange(async (v) => ((s.rewriteTone = v), await save()))
+      );
 
     // Properties
     new Setting(containerEl).setName("Auto-properties").setHeading();
