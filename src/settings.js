@@ -33,6 +33,7 @@ const DEFAULT_SETTINGS = {
   // Writing help
   writingButton: true,
   rewriteTone: "", // "" · friendly · professional · concise — what plain Rewrite aims for
+  translateTo: "English",
   // Properties
   properties: [
     { key: "type", enabled: true, values: ["fleeting", "literature", "permanent", "project", "area", "resource", "lecture", "meeting", "daily", "review"] },
@@ -249,6 +250,10 @@ class IntelligenceSettingTab extends PluginSettingTab {
           .setValue(s.rewriteTone || "")
           .onChange(async (v) => ((s.rewriteTone = v), await save()))
       );
+    new Setting(containerEl)
+      .setName("Translate to")
+      .setDesc("The language “Writing help: Translate” writes in.")
+      .addText((t) => t.setPlaceholder("English").setValue(s.translateTo).onChange(async (v) => ((s.translateTo = v.trim() || "English"), await save())));
 
     // Properties
     new Setting(containerEl).setName("Auto-properties").setHeading();

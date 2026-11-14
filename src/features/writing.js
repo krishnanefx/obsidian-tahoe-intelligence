@@ -36,6 +36,11 @@ function toolPrompt(tool, tone) {
   return tool.id === "rewrite" && TONES[tone] ? `${tool.prompt} ${TONES[tone]}` : tool.prompt;
 }
 
+function translateTool(language) {
+  const lang = String(language || "").trim() || "English";
+  return { id: "translate", name: `Translate to ${lang}`, icon: "languages", prompt: `Translate the text into ${lang}. ${KEEP}` };
+}
+
 // What to work on: the selection, or the paragraph the cursor is in.
 function target(editor) {
   let from = editor.getCursor("from");
@@ -310,6 +315,16 @@ function register(plugin) {
     plugin.addCommand({ id: `writing-${tool.id}`, name: `Writing help: ${tool.name}`, icon: tool.icon, editorCallback: (editor) => open(plugin, editor, tool.id) });
   }
   plugin.addCommand({ id: "writing-summary-copy", name: "Writing help: Copy summary", icon: "clipboard-copy", editorCallback: (editor) => summarizeToClipboard(plugin, editor) });
+  plugin.addCommand({
+    id: "writing-translate",
+    name: "Writing help: Translate",
+    icon: "languages",
+    editorCallback: (editor) => {
+      const t = target(editor);
+      if (!t) return new Notice("Select some text first");
+      new WritingSheet(plugin, editor, translateTool(plugin.settings.translateTo), t).open();
+    },
+  });
   plugin.registerEvent(
     plugin.app.workspace.on("editor-menu", (menu, editor) => {
       menu.addItem((item) => {
@@ -323,4 +338,4 @@ function register(plugin) {
   if (!Platform.isMobile) plugin.registerEditorExtension(selectionButton(plugin));
 }
 
-export { register, TOOLS, tidy, toolPrompt };
+export { register, TOOLS, tidy, toolPrompt, translateTool };
