@@ -84,14 +84,14 @@ class RelatedView extends ItemView {
     if (!index.ready) return this.empty(el, "Reading your notes…", true);
 
     // Meaning plus shared distinctive words (meaning alone misses short notes).
-    let near = await hybridRelated(this.plugin, file, { k: SHOW });
+    let near = await hybridRelated(this.plugin, file, { k: this.plugin.settings.relatedCount || SHOW });
     if (this.currentFile() !== file) return;
     if (!index.vectorOf(file.path) && !near.length) {
       // Too short to be indexed, or brand new: work it out now.
       const text = await noteText(this.app, file);
       if (text.length < 20) return this.empty(el, "Write a little more and related notes will appear here.");
       try {
-        near = index.nearest(await index.embedText(`${file.basename}\n${text}`), { k: SHOW, min: 0.2, exclude: new Set([file.path]) });
+        near = index.nearest(await index.embedText(`${file.basename}\n${text}`), { k: this.plugin.settings.relatedCount || SHOW, min: 0.2, exclude: new Set([file.path]) });
       } catch {
         return this.empty(el, "Related notes need Apple Intelligence on this Mac.");
       }

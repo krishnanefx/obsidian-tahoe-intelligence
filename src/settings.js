@@ -30,6 +30,7 @@ const DEFAULT_SETTINGS = {
   duplicateThreshold: 0.62,
   topicThreshold: 0.05,
   excludeFolders: [],
+  relatedCount: 12, // notes shown in Related
   // Writing help
   writingButton: true,
   rewriteTone: "", // "" · friendly · professional · concise — what plain Rewrite aims for
@@ -218,6 +219,16 @@ class IntelligenceSettingTab extends PluginSettingTab {
         );
     }
 
+
+    new Setting(containerEl)
+      .setName("Notes shown in Related")
+      .addSlider((sl) =>
+        sl
+          .setLimits(5, 30, 1)
+          .setValue(s.relatedCount)
+          .setDynamicTooltip()
+          .onChange(async (v) => ((s.relatedCount = v), await save()))
+      );
 
     // Link suggestions
     new Setting(containerEl).setName("Link suggestions").setHeading();
