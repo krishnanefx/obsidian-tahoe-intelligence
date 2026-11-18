@@ -14,6 +14,12 @@ import { fs, path, os } from "./node";
 const BATCH = 8;
 const MIN_CHARS = 40; // shorter notes don't say enough to compare
 
+// The setting, or the default if it's missing or not a number.
+function minChars(settings) {
+  const n = Number(settings && settings.indexMinChars);
+  return Number.isFinite(n) && n >= 0 ? n : MIN_CHARS;
+}
+
 class SemanticIndex {
   constructor(plugin) {
     this.plugin = plugin;
@@ -208,7 +214,7 @@ class SemanticIndex {
           const f = this.app.vault.getAbstractFileByPath(p);
           if (!(f instanceof TFile)) continue;
           const body = await noteText(this.app, f);
-          if (body.length < MIN_CHARS) {
+          if (body.length < minChars(this.plugin.settings)) {
             if (this.entries.delete(p)) this.invalidate();
             continue;
           }
@@ -358,4 +364,4 @@ class SemanticIndex {
   }
 }
 
-export { SemanticIndex };
+export { SemanticIndex, minChars };

@@ -31,6 +31,7 @@ const DEFAULT_SETTINGS = {
   topicThreshold: 0.05,
   excludeFolders: [],
   relatedCount: 12, // notes shown in Related
+  indexMinChars: 40, // shorter notes aren't read
   // Writing help
   writingButton: true,
   rewriteTone: "", // "" · friendly · professional · concise — what plain Rewrite aims for
@@ -228,6 +229,16 @@ class IntelligenceSettingTab extends PluginSettingTab {
           .setValue(s.relatedCount)
           .setDynamicTooltip()
           .onChange(async (v) => ((s.relatedCount = v), await save()))
+      );
+    new Setting(containerEl)
+      .setName("Shortest note to read")
+      .setDesc("Notes with fewer characters than this are left out of the meaning index. Applies as notes are read again.")
+      .addSlider((sl) =>
+        sl
+          .setLimits(10, 200, 5)
+          .setValue(s.indexMinChars)
+          .setDynamicTooltip()
+          .onChange(async (v) => ((s.indexMinChars = v), await save()))
       );
 
     // Link suggestions
