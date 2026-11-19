@@ -202,6 +202,21 @@ class SemanticIndex {
     this.pump();
   }
 
+  // Empties the index, in memory; the notes it knew are read again as they change.
+  clear() {
+    this.entries.clear();
+    this.queue = [];
+    this.dim = 0;
+    this.dirty = false;
+    this.invalidate();
+    this.emit();
+  }
+
+  async removeCache() {
+    const base = this.cacheBase;
+    for (const ext of [".bin", ".meta.json", ".json"]) await fs.promises.rm(`${base}${ext}`, { force: true });
+  }
+
   async pump() {
     if (this.running) return;
     this.running = true;

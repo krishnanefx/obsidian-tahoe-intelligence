@@ -17,6 +17,7 @@ import { IntelligenceSettingTab, DEFAULT_SETTINGS } from "./settings";
 import * as features from "./features";
 import { aiIcon } from "./ui";
 import { loadNode } from "./node";
+import * as housekeeping from "./features/housekeeping";
 
 export default class TahoeIntelligencePlugin extends Plugin {
   async onload() {
@@ -36,6 +37,7 @@ export default class TahoeIntelligencePlugin extends Plugin {
     this.addSettingTab(new IntelligenceSettingTab(this.app, this));
     this.api = features.api(this);
     features.register(this);
+    housekeeping.register(this);
 
     this.app.workspace.onLayoutReady(() => {
       // Let Obsidian settle first; the helper and the index start in the background.
