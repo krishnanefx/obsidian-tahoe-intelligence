@@ -10,6 +10,7 @@
 import { TFile } from "obsidian";
 import { noteText } from "./vault";
 import { fs, path, os } from "./node";
+import { inFolder } from "./features/housekeeping";
 
 const BATCH = 8;
 const MIN_CHARS = 40; // shorter notes don't say enough to compare
@@ -215,6 +216,21 @@ class SemanticIndex {
   async removeCache() {
     const base = this.cacheBase;
     for (const ext of [".bin", ".meta.json", ".json"]) await fs.promises.rm(`${base}${ext}`, { force: true });
+  }
+
+  // Forget the notes in a folder and read them again; returns how many.
+  rebuildFolder(folder) {
+    let n = 0;
+    for (const f of this.app.vault.getMarkdownFiles()) {
+      if (!inFolder(f.path, folder) || this.excluded(f)) continue;
+      this.entries.delete(f.path);
+      if (!this.queue.includes(f.path)) this.queue.push(f.path);
+      n++;
+    }
+    this.invalidate();
+    this.total = Math.max(this.total || 0, this.queue.length);
+    this.pump();
+    return n;
   }
 
   async pump() {
