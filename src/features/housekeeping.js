@@ -1,13 +1,22 @@
 /*
- * Looking after the meaning index and the related notes: clear it and rebuild one folder.
+ * Looking after the meaning index and the related notes: clear it, rebuild one folder and see how big it is.
  */
 
 import { Notice } from "obsidian";
+import { fs } from "../node";
 
 // Is a note in a folder (or below it)? An empty folder means the whole vault.
 function inFolder(notePath, folder) {
   const f = String(folder || "").replace(/^\/+|\/+$/g, "");
   return !f || notePath.startsWith(`${f}/`);
+}
+
+function formatStats({ size, waiting, dim, bytes }) {
+  const mb = bytes ? `${(bytes / 1048576).toFixed(bytes < 10485760 ? 1 : 0)} MB on disk` : "not saved yet";
+  const lines = [`${size.toLocaleString()} ${size === 1 ? "note" : "notes"} understood`];
+  if (waiting) lines.push(`${waiting.toLocaleString()} waiting to be read`);
+  lines.push(dim ? `${dim} numbers per note` : "no vectors yet", mb);
+  return lines.join(" · ");
 }
 
 function register(plugin) {
@@ -41,6 +50,22 @@ function register(plugin) {
       return true;
     },
   });
+
+  plugin.addCommand({
+    id: "index-stats",
+    name: "Show meaning index stats",
+    icon: "info",
+    callback: async () => {
+      const ix = plugin.index;
+      let bytes = 0;
+      try {
+        bytes = (await fs.promises.stat(`${ix.cacheBase}.bin`)).size;
+      } catch {
+        // not saved yet
+      }
+      new Notice(formatStats({ size: ix.size, waiting: ix.queue.length, dim: ix.dim, bytes }), 8000);
+    },
+  });
 }
 
-export { register, inFolder };
+export { register, inFolder, formatStats };
