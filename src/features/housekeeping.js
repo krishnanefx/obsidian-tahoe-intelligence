@@ -1,8 +1,9 @@
 /*
- * Looking after the meaning index and the related notes: clear it, rebuild one folder and see how big it is.
+ * Looking after the meaning index and the related notes: clear it, rebuild one folder, see how big it is, and copy the notes related to this one as links.
  */
 
-import { Notice } from "obsidian";
+import { Notice, TFile } from "obsidian";
+import { hybridRelated } from "../keywords";
 import { fs } from "../node";
 
 // Is a note in a folder (or below it)? An empty folder means the whole vault.
@@ -17,6 +18,10 @@ function formatStats({ size, waiting, dim, bytes }) {
   if (waiting) lines.push(`${waiting.toLocaleString()} waiting to be read`);
   lines.push(dim ? `${dim} numbers per note` : "no vectors yet", mb);
   return lines.join(" · ");
+}
+
+function linkList(links) {
+  return links.map((l) => `- ${l}`).join("\n");
 }
 
 function register(plugin) {
@@ -66,6 +71,27 @@ function register(plugin) {
       new Notice(formatStats({ size: ix.size, waiting: ix.queue.length, dim: ix.dim, bytes }), 8000);
     },
   });
+
+  plugin.addCommand({
+    id: "copy-related",
+    name: "Copy related notes as links",
+    icon: "copy",
+    checkCallback: (checking) => {
+      const file = app.workspace.getActiveFile();
+      if (!file || file.extension !== "md") return false;
+      if (!checking) {
+        (async () => {
+          if (!plugin.index.ready) return new Notice("Still reading your notes…");
+          const near = await hybridRelated(plugin, file, { k: plugin.settings.relatedCount || 12 });
+          const links = near.map((n) => app.vault.getAbstractFileByPath(n.path)).filter((f) => f instanceof TFile).map((f) => app.fileManager.generateMarkdownLink(f, file.path));
+          if (!links.length) return new Notice("Nothing closely related yet");
+          await navigator.clipboard.writeText(linkList(links));
+          new Notice(`Copied ${links.length} ${links.length === 1 ? "link" : "links"}`);
+        })();
+      }
+      return true;
+    },
+  });
 }
 
-export { register, inFolder, formatStats };
+export { register, inFolder, formatStats, linkList };
