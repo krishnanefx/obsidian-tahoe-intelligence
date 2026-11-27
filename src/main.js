@@ -58,6 +58,7 @@ export default class TahoeIntelligencePlugin extends Plugin {
   onunload() {
     window.clearTimeout(this.startTimer);
     this.engine.stop();
+    this.index.stop();
     this.index.saveNow();
   }
 

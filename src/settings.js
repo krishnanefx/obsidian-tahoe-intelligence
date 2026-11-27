@@ -32,6 +32,7 @@ const DEFAULT_SETTINGS = {
   excludeFolders: [],
   relatedCount: 12, // notes shown in Related
   indexMinChars: 40, // shorter notes aren't read
+  indexPauseOnBattery: false,
   // Writing help
   writingButton: true,
   rewriteTone: "", // "" · friendly · professional · concise — what plain Rewrite aims for
@@ -240,6 +241,10 @@ class IntelligenceSettingTab extends PluginSettingTab {
           .setDynamicTooltip()
           .onChange(async (v) => ((s.indexMinChars = v), await save()))
       );
+    new Setting(containerEl)
+      .setName("Pause reading notes on battery")
+      .setDesc("Wait for the charger before updating the meaning index.")
+      .addToggle((t) => t.setValue(!!s.indexPauseOnBattery).onChange(async (v) => ((s.indexPauseOnBattery = v), await save())));
 
     // Link suggestions
     new Setting(containerEl).setName("Link suggestions").setHeading();

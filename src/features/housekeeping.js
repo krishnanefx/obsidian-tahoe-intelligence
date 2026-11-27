@@ -1,5 +1,6 @@
 /*
- * Looking after the meaning index and the related notes: clear it, rebuild one folder, see how big it is, and copy the notes related to this one as links.
+ * Looking after the meaning index and the related notes: clear it, rebuild one
+ * folder, see how big it is, and copy the notes related to this one as links.
  */
 
 import { Notice, TFile } from "obsidian";

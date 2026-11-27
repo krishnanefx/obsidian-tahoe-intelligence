@@ -21,6 +21,11 @@ function minChars(settings) {
   return Number.isFinite(n) && n >= 0 ? n : MIN_CHARS;
 }
 
+// Pause reading notes only if asked to, and only when the Mac is on battery.
+function pausedOnBattery(enabled, battery) {
+  return !!enabled && !!battery && battery.charging === false;
+}
+
 class SemanticIndex {
   constructor(plugin) {
     this.plugin = plugin;
@@ -233,11 +238,34 @@ class SemanticIndex {
     return n;
   }
 
+  stop() {
+    window.clearTimeout(this.retryTimer);
+    this.retryTimer = 0;
+  }
+
+  async onBattery() {
+    if (!this.plugin.settings.indexPauseOnBattery) return false;
+    try {
+      return pausedOnBattery(true, await navigator.getBattery());
+    } catch {
+      return false; // no battery information: carry on
+    }
+  }
+
   async pump() {
     if (this.running) return;
     this.running = true;
     try {
       while (this.queue.length) {
+        if (await this.onBattery()) {
+          // Wait for the charger; look again in a minute.
+          if (!this.retryTimer)
+            this.retryTimer = window.setTimeout(() => {
+              this.retryTimer = 0;
+              this.pump();
+            }, 60000);
+          break;
+        }
         const batch = this.queue.splice(0, BATCH);
         const files = [];
         const texts = [];
@@ -395,4 +423,4 @@ class SemanticIndex {
   }
 }
 
-export { SemanticIndex, minChars };
+export { SemanticIndex, minChars, pausedOnBattery };
